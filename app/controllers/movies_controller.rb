@@ -38,7 +38,7 @@ class MoviesController < ApplicationController
       @movie.save
       redirect_to movies_url,  notice: "Movie created successfully." 
     else
-      render template: "new"
+      render "new"
     end
   end
 
@@ -49,10 +49,12 @@ class MoviesController < ApplicationController
   end
 
   def update
+    movie_attributes = params.require(:movie).permit(:title, :description)
     @movie = Movie.find(params.fetch(:id))
+    @movie.update(movie_attributes)
 
-    @movie.title = params.fetch(:title)
-    @movie.description = params.fetch(:description)
+    # @movie.title = params.fetch(:title)
+    # @movie.description = params.fetch(:description)
 
     if @movie.valid?
       @movie.save
